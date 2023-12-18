@@ -1,4 +1,8 @@
-# infer-types
+# infer-types-fork
+
+Fork of [infer-types](https://github.com/orsinium-labs/infer-types), that improves following:
+- Inserts `from __future__ import annontations` for inherit type annotations
+- Fixes the `--only` argument, for excluding formatting for `magic` methods  
 
 A CLI tool to automatically add type annotations into Python code.
 

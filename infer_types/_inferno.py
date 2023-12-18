@@ -72,15 +72,19 @@ class Inferno:
     def _infer_sig(self, node: astroid.FunctionDef) -> FSig | None:
         if node.returns is not None:
             return None
-        return_type = get_return_type(node, names=self.only)
+        return_type, additional_import = get_return_type(node, names=self.only)
         if return_type is None:
+            return None
+        if 'magic' in self.only and node.name.startswith('__') and return_type.name == 'None':
             return None
         if not self.assumptions and return_type.assumptions:
             return None
+
         if self.allowed_types and return_type.name not in self.allowed_types:
             return None
         return FSig(
             name=node.name,
             args=node.args.as_string(),
             return_type=return_type,
+            additional_imports=additional_import,
         )

@@ -41,7 +41,10 @@ def get_return_type(
             continue
         ret_type = extractor(func_node)
         if not ret_type.unknown:
-            return ret_type
+            additional_import = None
+            if name == 'inherit':
+                additional_import = 'from __future__ import annotations'
+            return ret_type, additional_import
     return None
 
 
