@@ -41,8 +41,11 @@ def get_return_type(
             continue
         ret_type = extractor(func_node)
         if not ret_type.unknown:
-            return ret_type
-    return None
+            additional_import = None
+            if name in ('inherit', 'astypes'):
+                additional_import = 'from __future__ import annotations'
+            return ret_type, additional_import
+    return None, None
 
 
 def walk(func_node: astroid.FunctionDef) -> Iterator[astroid.NodeNG]:
